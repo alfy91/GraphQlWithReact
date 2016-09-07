@@ -1,0 +1,6 @@
+node_modules
+public/bundle.js
+schema.json
+
+#IDE
+.idea
