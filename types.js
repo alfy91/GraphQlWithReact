@@ -49,7 +49,10 @@ var userType = new GraphQLObjectType({
             type:agencyType,
             description:"User agency",
             resolve:function(_,args) {
-                return under.find(under.values(db.agencies),function(agency){
+                var req_agencies = Request('GET', 'http://192.168.33.22/index.php?option=com_users&controller=user&task=user.getAllAgencies');
+                var agencies = JSON.parse(req_agencies.getBody("utf8"));
+                console.log(agencies);
+                return under.find(under.values(agencies),function(agency){
                     return agency.id==_.agency;
                 });
             }

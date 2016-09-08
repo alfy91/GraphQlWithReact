@@ -53,13 +53,6 @@ var jQuery = require('jquery');
 
 
 //var agencies =
-Request = require('sync-request');
-//var agencies = Request('GET', 'https://extra-refactory.logotel.it/temp/data.json');
-var users = Request('GET', 'http://192.168.33.22/index.php?option=com_users&controller=user&task=user.getAllUsers');
-var agencies = Request('GET', 'http://192.168.33.22/index.php?option=com_users&controller=user&task=user.getAllAgencies');
-
-exports.agencies = JSON.parse(agencies.getBody("utf8"));
-exports.users = JSON.parse(users.getBody("utf8"));;
 
 
 

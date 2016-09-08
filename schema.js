@@ -46,9 +46,12 @@ var queryType = new GraphQLObjectType({
 });
 
 function getUser(id) {
-    for(var i = 0; i < db.users.length; i++) {
-        if(db.users[i].id == id) {
-            return db.users[i];
+    Request = require('sync-request');
+    var req_users = Request('GET', 'http://192.168.33.22/index.php?option=com_users&controller=user&task=user.getAllUsers');
+    var users = JSON.parse(req_users.getBody("utf8"));
+    for(var i = 0; i < users.length; i++) {
+        if(users[i].id == id) {
+            return users[i];
         }
     }
     return null;
