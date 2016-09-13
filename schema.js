@@ -6,38 +6,40 @@ var types = require('./types');
 var under = require('underscore');
 var db = require('./database');
 var GraphQLRelay = require('graphql-relay');
-
+var mysql = require('mysql');
 var GraphQLList = graphql.GraphQLList;
-
+var GraphQLString = graphql.GraphQLString;
+var GOOGLE_API_KEY = "AIzaSyAahonfOsE-ZyvVgNbjJ67ja3dhN7UFA4Y";
+var Request = require('sync-request');
 
 var queryType = new GraphQLObjectType({
     name: "query",
     description: "User query",
     fields: {
-        user: {
-            type: types.userType,
+        citta: {
+            type: types.cittaType,
             args: {
-                id: {
-                    type: GraphQLInt
+                name: {
+                    type: GraphQLString
                 }
             },
             resolve: function (_, args) {
-                return getUser(args.id)
+                return {"name": (args.name)};
             }
         },
-        users: {
-            type: new GraphQLList(types.userType),
-            resolve: function (_, args) {
-                return under.values(db.users);
-            }
-        },
+
         viewer: {
             type: types.viewerType,
             fields: {
                 id: GraphQLRelay.globalIdField('viewer')
             },
+            args: {
+                name: {
+                    type: GraphQLString
+                }
+            },
             resolve: function (_, args) {
-                return {}
+                return {"name": (args.name)};
             }
         }
 
@@ -45,17 +47,9 @@ var queryType = new GraphQLObjectType({
 
 });
 
-function getUser(id) {
-    Request = require('sync-request');
-    var req_users = Request('GET', 'http://192.168.33.22/index.php?option=com_users&controller=user&task=user.getAllUsers');
-    var users = JSON.parse(req_users.getBody("utf8"));
-    for(var i = 0; i < users.length; i++) {
-        if(users[i].id == id) {
-            return users[i];
-        }
-    }
-    return null;
-}
+
+
+
 
 
 var schema = new GraphQLSchema({

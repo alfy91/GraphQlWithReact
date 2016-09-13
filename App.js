@@ -5,39 +5,46 @@ class App extends React.Component {
     return(
       <div>
         <h2>Test</h2>
-        <Users users={this.props.viewer.users} />
+        <div >
+            <p>Tempo:{this.props.viewer.citta.meteo.tempo}</p>
+            <p>Temperatura: {this.props.viewer.citta.meteo.temp}</p>
+        </div>
+        <Citta dati={this.props.viewer.citta} />
       </div>
     )
   }  
 }
-class Users extends React.Component{
+
+
+class Citta extends React.Component{
   render(){
     return (
       <table class="table table-striped">
           <tr>
-            <th>ID</th>
+            <th>Tipo</th>
             <th>Nome</th>
-            <th>Username</th>
-            <th>Agenzia</th>
+            <th>Voto</th>
+            <th>Note</th>
           </tr>
-          {this.props.users.map(user =>
-            <User user={user} />
-          )} 
+          {this.props.dati.puntiInteresse.map(puntoInteresse =>
+            <SingleCitta dati={puntoInteresse} />
+          )}
       </table> 
     )
   }
 }
 
-class User extends React.Component {
+class SingleCitta extends React.Component {
   render() {
 
-    var user = this.props.user;
+    var poi = this.props.dati;
+
     return (
       <tr>
-        <td>{user.id}</td>
-        <td>{user.name}</td>
-        <td>{user.username}</td>
-        <td>{user.agency.titolo}</td>
+          <td><img width="30" height="30" src={poi.icon}/></td>
+          <td>{poi.name }</td>
+          <td>{poi.rating }</td>
+          <td>{poi.types }</td>
       </tr>
     )
   }
@@ -48,13 +55,16 @@ exports.Container = Relay.createContainer(App, {
 
     viewer: () => Relay.QL`
       fragment on Viewer {
-          users{
-            id,
-            username,
-            name,
-            agency {
-              id,
-              titolo
+         citta(name: \"Caserta\") {
+            puntiInteresse {
+              name,
+              rating,
+              types,
+              icon
+            },
+            meteo {
+              temp,
+              tempo
             }
           }
       }
