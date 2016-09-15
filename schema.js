@@ -10,7 +10,7 @@ var mysql = require('mysql');
 var GraphQLList = graphql.GraphQLList;
 var GraphQLString = graphql.GraphQLString;
 var GOOGLE_API_KEY = "AIzaSyAahonfOsE-ZyvVgNbjJ67ja3dhN7UFA4Y";
-var Request = require('sync-request');
+//var Request = require('sync-request');
 
 var queryType = new GraphQLObjectType({
     name: "query",
